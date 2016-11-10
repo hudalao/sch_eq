@@ -18,10 +18,8 @@ from function import wave_fourier_basis, Hamiltonian_momentum_basis, Legendre_po
 #V the potential energy V(x) ps: the size of V(x) should be same as the size of the basis set
 #V_const the constant potential energy 
 #domain is the range of V(x)
-#the choice of basis set function: 1 ---> the fourier basis                                                            2 ---> the legendre polynomial basis
+#the choice of basis set function: 1 ---> the fourier basis     2 ---> the legendre polynomial basis
 #ps: the fourier basis must take V as a function of x, which means the V input must be a array, and the legendre polynomial basis  can only take the constant V. Be careful when you use different basis method
-from scipy.linalg import dft
-
 
 def output(c, V, V_const, N, wave_func, choice, domain):
     if choice == 1:
@@ -37,7 +35,7 @@ def output(c, V, V_const, N, wave_func, choice, domain):
 
 
 #rough test
-##set V = 0, and input wavefunction is a sin function, using the column              vector we obtained in legendre polynomial basis and fourier basis, we could         restruct the sin function
+##set V = 0, and input wavefunction is a sin function, using the column vector we obtained in legendre polynomial basis and fourier basis, we could reconstruct the sin function
 #set up
 N = 100
 domain = 2 * np.pi

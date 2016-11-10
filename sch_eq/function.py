@@ -16,7 +16,7 @@ import cmath
 #N the size of the basis set
 #V the potential energy V(x) ps: the size of V(x) should be same as the size of the basis set
 #V_const the constant potential energy 
-#the choice of basis set function: 1 ---> the fourier basis                                                            2 ---> the legendre polynomial basis
+#the choice of basis set function: 1 ---> the fourier basis 2 ---> the legendre polynomial basis
 #ps: the fourier basis can take function V of x, but the legendre polynomial basis  can only take the constant V. Be careful when you use different basis method
 
 
@@ -49,7 +49,7 @@ def reconstruct_wave(wave_fourier_coeff, domain, N):
     wave = wave * domain  
     return wave
     
-#here, we use the momentum basis which is a fourier basis set, which means we       reprsent the whole (-c Lap + V) as matrix with the momentum basis
+#here, we use the momentum basis which is a fourier basis set, which means we reprsent the whole (-c Lap + V) as matrix with the momentum basis
 #potential here refers to V in the equation shown above
 #the reson using this method is that we can obtain the eigenvalues and eigenvectors directly by diaglize this matrix
 def Hamiltonian_momentum_basis(c, potential, domain, N):
