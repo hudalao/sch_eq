@@ -40,7 +40,7 @@ class TestSch_eq(unittest.TestCase):
         potential = m * omega ** 2 * x ** 2 / 2
         
         #from analytic solution, the first five energy are
-        E = [0.5, 1.5, 2.5, 3.5, 4.5]
+        E = np.array([0.5, 1.5, 2.5, 3.5, 4.5])
         
         h1 = Hamiltonian_momentum_basis(c, potential, domain, N)
         eigenvalues = np.linalg.eigvals(h1)
@@ -48,10 +48,7 @@ class TestSch_eq(unittest.TestCase):
         #selecting first five energy from our calculated results
         #only keep one digit after the decimal
         E_calc = np.around(eigenvalues_real_sort[:5], decimals = 1)
-        print(E_calc) 
-        
-        E_calc.tolist() 
-        self.assertEqual(E, E_calc)
+        self.assertEqual(E.all(), E_calc.all())
         
     def test_Legendre_polynomial(self):
         #set V = 0, and input wavefunction is a sin function, using the column              vector we obtained in legendre polynomial basis, we should restruct the             sin function

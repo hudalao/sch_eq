@@ -46,7 +46,6 @@ def reconstruct_wave(wave_fourier_coeff, domain, N):
             add = wave_fourier_coeff[ii] * \
                     cmath.exp( exp_coeff[ii] * x[kk] ) 
             wave[kk] = wave[kk] + add
-    wave = wave 
     return wave
     
 #here, we use the momentum basis which is a fourier basis set, which means we reprsent the whole (-c Lap + V) as matrix with the momentum basis
