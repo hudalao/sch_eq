@@ -29,9 +29,9 @@ def wave_fourier_basis(wave_func, domain, N):
     a = np.zeros(N, dtype = complex)
     for ii in range(1, N):
         for kk in range(N):
-            add = wave_func[kk] * cmath.exp( -1 * exp_coeff[ii] * x[kk] ) * delta_x
+            add = wave_func[kk] * cmath.exp( -1 * exp_coeff[ii] * x[kk] )
             a[ii] = a[ii] + add
-    a = a / domain
+    a = a / N
     return a
 
 #reconstruct the original function for testing purpose
@@ -44,9 +44,9 @@ def reconstruct_wave(wave_fourier_coeff, domain, N):
     for kk in range(N):
         for ii in range(N):
             add = wave_fourier_coeff[ii] * \
-                    cmath.exp( exp_coeff[ii] * x[kk] ) * delta_x
+                    cmath.exp( exp_coeff[ii] * x[kk] ) 
             wave[kk] = wave[kk] + add
-    wave = wave * domain  
+    wave = wave 
     return wave
     
 #here, we use the momentum basis which is a fourier basis set, which means we reprsent the whole (-c Lap + V) as matrix with the momentum basis
