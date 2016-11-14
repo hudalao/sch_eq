@@ -39,13 +39,16 @@ def reconstruct_wave(wave_fourier_coeff, domain, N):
     x = np.linspace(-domain / 2, domain / 2, N)
     n = np.linspace(-N / 2 + 1, N / 2, N)
     exp_coeff = 1j * 2 * np.pi * n / domain
-    delta_x = domain / (N - 1)
+    delta_p = 2 * np.pi / domain
     wave = np.zeros(N, dtype = complex)
     for kk in range(N):
         for ii in range(N):
             add = wave_fourier_coeff[ii] * \
-                    cmath.exp( exp_coeff[ii] * x[kk] ) 
+                    cmath.exp( exp_coeff[ii] * x[kk] )
             wave[kk] = wave[kk] + add
+    
+    wave = wave * delta_p
+    
     return wave
     
 #here, we use the momentum basis which is a fourier basis set, which means we reprsent the whole (-c Lap + V) as matrix with the momentum basis
