@@ -30,88 +30,34 @@ def output(c, V, V_const, N, wave_func, choice, domain):
         return result
 
     elif choice == 2:
-        wave_legen =  Legendre_polynomial_basis(c, domain, N, wave_func)
-        matrix = Hamiltonian_Legendre_polynomial(c, V, domain, N)
-        wave_result_legen = np.dot(matrix, wave_legen)
-        return wave_result_legen
-    else:
-        return "error, only two basis are available, please select from 1 or 2"
+        return Legendre_polynomial_basis(c, V_const, domain, N, wave_func) 
     
-def ground_wave_function(c, V, domain, N):
-    matrix = Hamiltonian_momentum_basis(c, V, domain, N)
-    w, v = np.linalg.eig(matrix)
-    w = w.real
-    idx = w.argsort()
-    w = w[idx]
-    v = v[:,idx]
-    ground_wave = reconstruct_wave(v[:,0], domain, N)
-    return ground_wave
-#rough test
-##set V = 0, and input wavefunction is a sin function, using the column vector we obtained in legendre polynomial basis and fourier basis, we could reconstruct the sin function
-#set up
-N = 50
-domain = 2
-x = np.linspace(-domain / 2,domain / 2, N)
+#    
+def ground_wave_function(c, V, V_const, domain, N, choice):
+    if choice == 1:
+        matrix = Hamiltonian_momentum_basis(c, V, domain, N)
+        w, v = np.linalg.eig(matrix)
+        w = w.real
+        #sorting the eigenvalues and conrresponding eigenvectors
+        idx = w.argsort()
+        w = w[idx]
+        v = v[:,idx]
+        ground_wave = reconstruct_wave(v[:,0], domain, N)
+        
+        return ground_wave
+    elif choice == 2:
+        matrix = Hamiltonian_Legendre_polynomial(c, V_const, domain, N)
+        w, v = np.linalg.eig(matrix)
+        w = w.real
+        #sorting the eigenvalues and conrresponding eigenvectors
+        idx = w.argsort()
+        w = w[idx]
+        v = v[:,idx]
+        #transform to the wave function
+        x = np.linspace(-domain / 2, domain / 2, N)
+        ground_wave = legen.legval(x, v[: , 0]) 
+        
+        return ground_wave
 
-#wave_func = np.sin(x)
-#potential = np.repeat(0, N)
-#
-##fourier basis
-#c1 = output(1, potential, 0, N, wave_func, 1, domain)
-#a1 = reconstruct_wave(c1, domain, N)
-#a1 = a1.real
-#
-##Legen_polynomial
-#c2 = output(1, potential, 0, N, wave_func, 2, domain)
-#a2 = legen.legval(x, c2)
-#
-#import matplotlib.pyplot as plt
-#plt.figure(1)
-#plt.plot(x, wave_func, x, a1)
-#
-#
-#plt.figure(2)
-#plt.plot(x, a2)
-
-#potential = x ** 2 / 2
-potential = 5
-
-h = Hamiltonian_Legendre_polynomial(1, potential, domain, N)
-f, g = np.linalg.eig(h)
-idx = f.argsort()
-f = f[idx]
-g = g[:,idx]
-print(f)
-print(h)
-##plotting out the gournd state funciton using fourier basis for harmonic oscillator
-#plt.figure(3)
-#w = ground_wave_function(1 / 2, potential, domain, N)
-#w = w.real
-#plt.plot(x, w)
-#plt.show()
-
-#m = 1
-#omega = 1
-#c = 1 / 2 / m 
-#domain = 15
-#N = 70
-#
-##the corresponding potential
-#x  = np.linspace(-1 * domain / 2, domain / 2, N)
-#potential = m * omega ** 2 * x ** 2 / 2
-#
-##from analytic solution, the first five energy are
-#E = np.array([0.5, 1.5, 2.5, 3.5, 4.5])
-#
-#h1 = Hamiltonian_Legendre_polynomial(c, potential, domain, N)
-#eigenvalues = np.linalg.eigvals(h1)
-#eigenvalues_real_sort = np.sort(eigenvalues.real)
-##selecting first five energy from our calculated results
-##only keep one digit after the decimal
-#E_calc = np.around(eigenvalues_real_sort[:5], decimals = 1)
-
-#print(eigenvalues)
-
-#print(E_calc)
 
 

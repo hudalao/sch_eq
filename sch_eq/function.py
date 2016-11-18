@@ -78,86 +78,48 @@ def Hamiltonian_momentum_basis(c, potential, domain, N):
 
     K = K_coeff * K
     
-    #it is known that HC = HSC
+    #it is known that HC = HSC, because S here is a identity matrix with elements 
+    # equals to period, we can just divide the H by period value
     H = (K + V) / domain
 
-    
-    ##the S matrix
-    #S = np.zeros((N, N), dtype = complex)
-    #
-    #for ii in range(N):
-    #    for jj in range(N):
-    #        for kk in range(N):
-    #            brax_ketp = cmath.exp( exp_coeff[jj] * x[kk] )
-    #            brap_ketx = cmath.exp( -1 * exp_coeff[ii] * x[kk] )
-    #            add = brap_ketx * brax_ketp * delta_x
-    #            S[ii][jj] = S[ii][jj] + add
-
-
-
-    #divide the obtained Hamiltonian by the S matrix
-    #H = np.divide(K + V, S)
     return H
 
 
-def Legendre_polynomial_basis(c, domain, N, wave_func):
+def Legendre_polynomial_basis(c, potential, domain, N, wave_func):
     
     x = np.linspace(-domain / 2, domain /2, N)
     
     #represent out wave function in the legendre polynomial basis
-    wave_legen = legen.legfit(x, wave_func, N - 1)
+    wave_legen = legen.legfit(x, wave_func, N)
     
-    ##calculate H |bj>, where H = -c Lap + V
-    #
-    ##calculate -c Lap |bj>
-    #Hbj_first = -1 * c * legen.legder(wave_poly, 2)
-    ##calculate V|bj>, here, V is a constant
-    #Hbj_secod = V * wave_poly
-    #Hbj = Hbj_first + Hbj_secod[0: N - 1]
-    return wave_legen
+    #calculate H |bj>, where H = -c Lap + V
+    
+    #calculate -c Lap |bj>
+    Hbj_first = -1 * c * legen.legder(wave_legen, 2)
+    #calculate V|bj>, here, V is a constant
+    Hbj_secod = potential * wave_legen
+    Hbj = Hbj_first + Hbj_secod[0: N - 1]
+    
+    return Hbj
 
 def Hamiltonian_Legendre_polynomial(c, potential, domain, N):
-    
+    #potential is a constant in this case
+
     x = np.linspace(-domain / 2, domain /2, N)
     delta_x = domain / (N - 1)
     
-    ##potential term
-    #V = np.zeros((N, N))
-    #
-    ##potential_legen = legen.legfit(x, potential, N - 1)
-    #
-    #for ii in range(N):
-    #    legen_left_V = np.zeros(N)
-    #    legen_left_V[ii] = 1
-    #    for jj in range(N):
-    #        legen_right_V = np.zeros(N)
-    #        #legen_right_V[jj] = potential_legen[jj]
-    #        legen_right_V[jj] = 1
-    #        
-    #        ##multiply 
-    #        #legen_multiply_V = legen.legmul(legen_left_V, legen_right_V)
-    #       
-    #        ##integral
-    #        #legen_integral_V = legen.legint(legen_multiply_V)
-    #       
-    #        ##calculate the matrix elements
-    #        #V[ii][jj] = legen.legval(domain / 2, legen_integral_V) - \
-    #        #            legen.legval(-domain / 2, legen_integral_V)
-    #        for kk in range(N):
-    #            add = legen.legval(x[kk], legen_left_V) * \
-    #                    potential[kk] * legen.legval(x[kk], legen_right_V)
-    #            V[ii][jj] = V[ii][jj] + add
-    #V = V * delta_x
+    #here, the normalized legendre polynomical has been used 
+    # for the nth polynomials, normalization constant is sqrt(2/(2n + 1))
     
     #kinetic term
     K = np.zeros((N, N))
-    
+
     for ii in range(N):
         legen_left = np.zeros(N)
-        legen_left[ii] = 1
+        legen_left[ii] = mt.sqrt((2 * ii + 1) / 2) 
         for jj in range(N):
             deriva_array = np.zeros(N + 2)
-            deriva_array[jj] = 1
+            deriva_array[jj] = mt.sqrt((2 * jj + 1) / 2)
             legen_right_deriva = legen.legder(deriva_array, 2)
             
             #multiply them
@@ -170,38 +132,26 @@ def Hamiltonian_Legendre_polynomial(c, potential, domain, N):
             K[ii][jj] = legen.legval(domain / 2, legen_integral) - \
                         legen.legval(-domain / 2, legen_integral)
            
-    #the S matrix
+    #the S matrix, inside the [-1, 1] domain, the legendre ploynomial can be treatedas basis and satisfying <xi|xj> = delta ij, thus S matrix is a identity matrix
     S = np.zeros((N, N))
     
     for ii in range(N):
         legen_left_S = np.zeros(N)
         legen_left_S[ii] = 1
-        #for jj in range(N):
-        #    legen_right_S = np.zeros(N)
-        #    legen_right_S[jj] = 1
-        #    
-        #    #multiply 
-        #    legen_multiply_S = legen.legmul(legen_left_S, legen_right_S)
-        #   
-        #    #integral
-        #    legen_integral_S = legen.legint(legen_multiply_S)
-        #   
-        #    #calculate the matrix elements
-        #    S[ii][jj] = legen.legval(domain / 2, legen_integral_S) - \
-        #                legen.legval(-domain / 2, legen_integral_S)
         legen_multiply_S = legen.legmul(legen_left_S, legen_left_S)
         legen_integral_S = legen.legint(legen_multiply_S)
         S[ii][ii] = legen.legval(domain / 2, legen_integral_S) - \
                     legen.legval(-domain / 2, legen_integral_S)
 
     K = K * -1 * c
+   
+    #because the potential is just a constant here, we can calculate the V matrix   simply by multiply the matrix S a constant potential value
     
     V = potential * S
     
-    print(S)
-    #divide the obtained Hamiltonian by the S matrix
+    ##divide the obtained Hamiltonian by the S matrix
     S_inverse = np.linalg.inv(S)
     H = np.dot(S_inverse, K + V)
-
+    H = K + V
     return H
 
