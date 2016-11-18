@@ -17,6 +17,9 @@ Sch_eq
      :target: https://pyup.io/repos/github/hudalao/sch_eq/
      :alt: Updates
 
+.. image:: https://readthedocs.org/projects/sch-eq/badge/?version=latest
+     :target: http://sch-eq.readthedocs.io/en/latest/?badge=latest
+     :alt: Documentation Status
 
 solving schrodinger equation
 
