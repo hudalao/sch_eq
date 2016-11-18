@@ -9,10 +9,6 @@ Sch_eq
 .. image:: https://img.shields.io/travis/hudalao/sch_eq.svg
         :target: https://travis-ci.org/hudalao/sch_eq
 
-.. image:: https://readthedocs.org/projects/sch-eq/badge/?version=latest
-        :target: https://sch-eq.readthedocs.io/en/latest/?badge=latest
-        :alt: Documentation Status
-
 .. image:: https://pyup.io/repos/github/hudalao/sch_eq/shield.svg
      :target: https://pyup.io/repos/github/hudalao/sch_eq/
      :alt: Updates
@@ -20,6 +16,7 @@ Sch_eq
 .. image:: https://readthedocs.org/projects/sch-eq/badge/?version=latest
      :target: http://sch-eq.readthedocs.io/en/latest/?badge=latest
      :alt: Documentation Status
+
 
 solving schrodinger equation
 
