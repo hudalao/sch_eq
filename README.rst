@@ -29,7 +29,9 @@ solving schrodinger equation
 Features
 --------
 
-* Let's start
+In this program, two methods solving the OED has been provided:
+1. Fourier basis
+2. Legendre polynomials
 
 Credits
 ---------
