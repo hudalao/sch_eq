@@ -17,7 +17,8 @@ Sch_eq
      :target: http://sch-eq.readthedocs.io/en/latest/?badge=latest
      :alt: Documentation Status
 
-
+.. image:: https://coveralls.io/repos/github/hudalao/sch_eq/badge.svg
+     :target: https://coveralls.io/github/hudalao/sch_eq
 solving schrodinger equation
 
 
