@@ -137,7 +137,7 @@ def Hamiltonian_Legendre_polynomial(c, potential, domain, N):
     
     for ii in range(N):
         legen_left_S = np.zeros(N)
-        legen_left_S[ii] = 1
+        legen_left_S[ii] = mt.sqrt((2 * ii + 1) / 2)
         legen_multiply_S = legen.legmul(legen_left_S, legen_left_S)
         legen_integral_S = legen.legint(legen_multiply_S)
         S[ii][ii] = legen.legval(domain / 2, legen_integral_S) - \
@@ -150,8 +150,6 @@ def Hamiltonian_Legendre_polynomial(c, potential, domain, N):
     V = potential * S
     
     ##divide the obtained Hamiltonian by the S matrix
-    S_inverse = np.linalg.inv(S)
-    H = np.dot(S_inverse, K + V)
     H = K + V
     return H
 
