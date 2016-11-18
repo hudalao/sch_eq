@@ -1,5 +1,5 @@
 [run]
-#source = sch_eq
+source = sch_eq
 [report]
 include = sch_eq/*
 omit = tests/*
