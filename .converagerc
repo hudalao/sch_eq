@@ -2,5 +2,5 @@
 source = sch_eq
 [report]
 include = sch_eq/*
-omit = tests/*
+omit = tests/*, setup.py, travis_pypi_setup.py
 show_missing = True
