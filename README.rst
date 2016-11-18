@@ -29,7 +29,7 @@ solving schrodinger equation
 Features
 --------
 
-In this program, two methods solving the ODE has been provided:
+In this program, two methods solving the Schrodinger equation has been provided:
 1. Fourier basis
 2. Legendre polynomials
 
