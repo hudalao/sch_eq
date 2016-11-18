@@ -1,0 +1,6 @@
+[run]
+#source = sch_eq
+[report]
+include = sch_eq/*
+omit = tests/*
+show_missing = True
